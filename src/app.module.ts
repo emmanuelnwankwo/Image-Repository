@@ -6,6 +6,7 @@ import { UserModule } from './user/user.module';
 import { ImageModule } from './image/image.module';
 import { Env } from 'src/util/env';
 import { CloudinaryService } from './service/cloudinary/cloudinary.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { CloudinaryService } from './service/cloudinary/cloudinary.service';
         useUnifiedTopology: true
       }),
     UserModule, 
-    ImageModule
+    ImageModule, AuthModule
   ],
   controllers: [AppController],
   providers: [AppService, CloudinaryService],
