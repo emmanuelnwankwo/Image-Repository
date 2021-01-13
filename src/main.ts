@@ -1,24 +1,12 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { Logger } from '@nestjs/common';
-import { Env } from 'src/util/env';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { enableProdMode } from '@angular/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-async function bootstrap() {
-  const port: number = Env.Port;
-  const app = await NestFactory.create(AppModule);
+import { AppModule } from './app/app.module';
+import { environment } from './environments/environment';
 
-  const options = new DocumentBuilder().addBearerAuth()
-    .setTitle('Image Repository')
-    .setDescription('Shopify Developer Intern Challenge')
-    .setVersion('1.0')
-    .build();
-
-  const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('', app, document);
-
-  app.enableCors();
-  await app.listen(port);
-  Logger.log('info', `Server running on http://localhost:${port}`);
+if (environment.production) {
+  enableProdMode();
 }
-bootstrap();
+
+platformBrowserDynamic().bootstrapModule(AppModule)
+  .catch(err => console.log(err));
