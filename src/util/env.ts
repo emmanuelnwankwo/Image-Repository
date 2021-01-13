@@ -5,5 +5,6 @@ export const Env = {
     Port: Number(process.env.PORT),
     CloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
     CloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET,
-    CloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME
+    CloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
+    JwtSecret: process.env.JWT_SECRET
 }
