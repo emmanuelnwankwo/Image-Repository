@@ -1,11 +1,9 @@
 import { HttpStatus, Injectable, NestMiddleware } from '@nestjs/common';
-import { UserService } from './user.service';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
-export class UserMiddleware implements NestMiddleware {
-  constructor(private userService: UserService) {
-
-  }
+export class AuthMiddleware implements NestMiddleware {
+  constructor(private userService: UserService) {}
 
  async use(req: any, res: any, next: () => void) {
     const { email } = req.body;
