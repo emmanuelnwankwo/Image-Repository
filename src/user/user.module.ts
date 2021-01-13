@@ -10,7 +10,8 @@ import { UserMiddleware } from './user.middleware';
     MongooseModule.forFeature([{ name: 'User', schema: UserSchema }])
   ],
   controllers: [UserController],
-  providers: [UserService]
+  providers: [UserService],
+  exports: [MongooseModule, UserService]
 })
 export class UserModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

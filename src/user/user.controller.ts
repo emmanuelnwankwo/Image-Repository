@@ -1,34 +1,15 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, UsePipes, ValidationPipe, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, UsePipes, ValidationPipe, Res, HttpStatus, Req, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { UserMiddleware } from './user.middleware';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @Controller('user')
 export class UserController {
   constructor(
-    private readonly userService: UserService,
-    // private readonly userMiddleware: UserMiddleware
+    private readonly userService: UserService
   ) { }
-
-  @Post()
-  // @UsePipes(new ValidationPipe())
-  @ApiBearerAuth()
-  async create(@Res() res, @Body() createUserDto: CreateUserDto) {
-    try {
-      const response = await this.userService.create(createUserDto);
-      return res.status(response.httpStatus).json({
-        status: response.status,
-        data: response.data
-      });
-    } catch (error) {
-      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-        status: 'fail',
-        error: error.message
-      });
-    }
-  }
 
   @Get()
   findAll() {
@@ -37,6 +18,7 @@ export class UserController {
 
   @Get(':email')
   @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   async findOne(@Res() res, @Param('email') email: string) {
     try {
       const user = await this.userService.findOne(email);
@@ -52,7 +34,7 @@ export class UserController {
         });
       }
     } catch (error) {
-      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      return res.status(error.status ?? HttpStatus.INTERNAL_SERVER_ERROR).json({
         status: 'fail',
         error: error.message
       });
@@ -60,6 +42,8 @@ export class UserController {
   }
 
   @Put(':email')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   update(@Param('email') email: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+email, updateUserDto);
   }

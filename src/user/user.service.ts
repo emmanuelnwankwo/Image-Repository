@@ -14,11 +14,10 @@ const { successResponse, errorResponse } = Helper;
 export class UserService {
   constructor(@InjectModel('User') private userModel: Model<User>) { }
 
-  async create(createUserDto: CreateUserDto): Promise<ServiceResponse> {
+  async create(createUserDto: CreateUserDto): Promise<any> {
     try {
-      await new this.userModel(createUserDto).save();
-      const data = { username: createUserDto.username, email: createUserDto.email };
-      return successResponse(data, HttpStatus.CREATED);
+     const newUser = await new this.userModel(createUserDto).save();
+      return { username: createUserDto.username, email: createUserDto.email, _id: newUser._id};
     } catch (error) {
       const message = (!isEmpty(error._message)) ? error._message : ((!isEmpty(error.stringValue)) ? error.stringValue : error.message);
       throw new Error(message);
@@ -29,8 +28,12 @@ export class UserService {
     return `This action returns all user`;
   }
 
-  async findOne(email: string): Promise<User> {
-    return await this.userModel.findOne({ email }).exec();
+  async findOne(email: string, showPassword: boolean = false): Promise<User> {
+    if (showPassword) {
+      return await this.userModel.findOne({ email }).select('+password').exec();
+    } else {
+      return await this.userModel.findOne({ email }).exec();
+    }
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

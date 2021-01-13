@@ -1,11 +1,9 @@
 import { HttpStatus, Injectable, NestMiddleware } from '@nestjs/common';
-import { IsEmail } from 'class-validator';
-import { stringify } from 'querystring';
 import { UserService } from './user.service';
 
 @Injectable()
 export class UserMiddleware implements NestMiddleware {
-  constructor(private userService: UserService,) {
+  constructor(private userService: UserService) {
 
   }
 
