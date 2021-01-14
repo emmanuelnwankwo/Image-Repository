@@ -38,6 +38,10 @@ export const ImageSchema = new mongoose.Schema({
         required: true,
         default: true
     },
+    purchaseBy: {
+        type: mongoose.SchemaTypes.ObjectId,
+        required: false
+    },
     userId: {
         type: mongoose.SchemaTypes.ObjectId,
         required: true

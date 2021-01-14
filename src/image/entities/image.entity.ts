@@ -10,6 +10,7 @@ export class Image extends Document {
     readonly discountAmount: number;
     readonly available: boolean;
     readonly userId: string;
+    readonly purchaseBy?: string;
     readonly dateCreated: Date;
     readonly dateUpdated?: Date;
 }

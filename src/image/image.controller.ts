@@ -57,17 +57,63 @@ export class ImageController {
   @Get('publicImages')
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  findAll() {
-    return this.imageService.findAll();
+  async findAll(@Res() res) {
+    try {
+      const images = await this.imageService.findAll();
+      if (images.length > 0) {
+        return res.status(HttpStatus.OK).json({
+          status: 'success',
+          data: images
+        });
+      } else {
+        return res.status(HttpStatus.NOT_FOUND).json({
+          status: 'fail',
+          error: 'No record found'
+        });
+      }
+    } catch (error) {
+      return res.status(error.status ?? HttpStatus.INTERNAL_SERVER_ERROR).json({
+        status: 'fail',
+        error: error.message
+      });
+    }
+  }
+
+  @Get('purchased/:userId')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  async findAllPurchasedByUser(@Res() res, @Param('userId') userId: string) {
+    try {
+      const images = await this.imageService.findAllPurchasedByUser(userId);
+      if (images.length > 0) {
+        return res.status(HttpStatus.OK).json({
+          status: 'success',
+          data: images
+        });
+      } else {
+        return res.status(HttpStatus.NOT_FOUND).json({
+          status: 'fail',
+          error: 'No record found'
+        });
+      }
+    } catch (error) {
+      return res.status(error.status ?? HttpStatus.INTERNAL_SERVER_ERROR).json({
+        status: 'fail',
+        error: error.message
+      });
+    }
   }
 
   @Get(':id')
   @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   findOne(@Param('id') id: string) {
     return this.imageService.findOne(id);
   }
 
   @Put(':id')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   update(@Param('id') id: string, @Body() updateImageDto: UpdateImageDto) {
     return this.imageService.update(+id, updateImageDto);
   }

@@ -26,6 +26,10 @@ export class ImageService {
   async findOne(id: string) {
     return await this.imageModel.findOne({ _id: id }).exec();
   }
+  
+  async findAllPurchasedByUser(userId: string): Promise<Image[]> {
+    return await this.imageModel.find({ purchaseBy: userId }).exec();
+  }
 
   update(id: number, updateImageDto: UpdateImageDto) {
     return `This action updates a #${id} image`;

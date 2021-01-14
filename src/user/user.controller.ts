@@ -12,6 +12,8 @@ export class UserController {
   ) { }
 
   @Get()
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   findAll() {
     return this.userService.findAll();
   }
@@ -49,6 +51,8 @@ export class UserController {
   }
 
   @Delete(':email')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   remove(@Param('email') email: string) {
     return this.userService.remove(+email);
   }
