@@ -23,7 +23,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/scss/argon.scss"
             ],
             "scripts": []
           },
@@ -123,5 +124,13 @@
       }
     }
   },
-  "defaultProject": "ImageRepository"
+  "defaultProject": "ImageRepository",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  },
+  "cli": {
+    "analytics": false
+  }
 }
