@@ -16,7 +16,7 @@ export class ImageController {
     private readonly cloudinaryService: CloudinaryService
   ) { }
 
-  @Post()
+  @Post('upload')
   @ApiBearerAuth()
   @UseInterceptors(FilesInterceptor('file'))
   @UseGuards(JwtAuthGuard)
@@ -107,8 +107,26 @@ export class ImageController {
   @Get(':id')
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  findOne(@Param('id') id: string) {
-    return this.imageService.findOne(id);
+  async findOne(@Res() res, @Param('id') id: string) {
+    try {
+      const image = await this.imageService.findOne(id);;
+      if (image !== null) {
+        return res.status(HttpStatus.OK).json({
+          status: 'success',
+          data: image
+        });
+      } else {
+        return res.status(HttpStatus.NOT_FOUND).json({
+          status: 'fail',
+          error: 'No record found'
+        });
+      }
+    } catch (error) {
+      return res.status(error.status ?? HttpStatus.INTERNAL_SERVER_ERROR).json({
+        status: 'fail',
+        error: error.message
+      });
+    }
   }
 
   @Put(':id')
