@@ -38,6 +38,11 @@ Click [here](https://github.com/emmanuelnwankwo/Image-Repository/tree/frontend) 
 The docs was hosted on Heroku
 * [API Documentation](https://image-repository-api.herokuapp.com/)
 
+### Upload image(s) using Postman
+1. Login and copy access_token
+2. ![alt text](https://res.cloudinary.com/enwankwo/image/upload/v1611222849/ImageRepository/Screenshot_2021-01-21_105312.png)
+3. ![alt text](https://res.cloudinary.com/enwankwo/image/upload/v1611222570/ImageRepository/Screenshot_2021-01-21_104505.png)
+
 ### User Interface (Web)
 The web was hosted on Heroku
 * [Web view](https://image-repository-frontend.herokuapp.com/)
